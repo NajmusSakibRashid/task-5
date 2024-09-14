@@ -1,6 +1,6 @@
 const { useRef } = require("react");
 
-export default ({ state, setState }) => {
+const Navbar = ({ state, setState }) => {
   const handleChange = (e) => {
     setState({
       ...state,
@@ -69,3 +69,5 @@ export default ({ state, setState }) => {
     </div>
   );
 };
+
+export default Navbar;
