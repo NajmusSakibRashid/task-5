@@ -4,6 +4,7 @@ import Navbar from "./components/navbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ShowJson from "./components/showjson";
+import modifyObject from "./utils/error";
 
 let lastCalled = 0;
 
@@ -49,6 +50,9 @@ export default function Home() {
       `https://randomuser.me/api/?inc=login,name,phone,location&results=${results}&page=${page}&nat=${state.region}&seed=${state.seed}`
     );
     // console.log(data.results);
+    data.results = data.results.map((obj) =>
+      modifyObject(obj, Math.min(50, state.error))
+    );
     if (append) {
       setTable([...table, ...data.results]);
     } else {
