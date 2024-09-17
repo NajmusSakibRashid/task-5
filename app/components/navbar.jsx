@@ -43,6 +43,7 @@ const Navbar = ({ state, setState }) => {
           value={state.error > 10 ? 10 : state.error}
         />
         <input
+          placeholder="Error"
           type="number"
           step={0.01}
           min={0}
@@ -55,6 +56,7 @@ const Navbar = ({ state, setState }) => {
       </div>
       <div className="flex gap-4">
         <input
+          placeholder="Seed"
           type="text"
           className="p-4 rounded-lg w-48"
           name="seed"
