@@ -1,3 +1,5 @@
+//applying error on these fields
+
 const attributes = [
   "name.first",
   "name.last",
