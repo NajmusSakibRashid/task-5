@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased mt-80 sm:mt-64 lg:mt-40  flex justify-start lg:justify-center overflow-auto`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased mt-80 sm:mt-64 lg:mt-40  flex justify-start lg:justify-center overflow-auto bg-gray-300`}
       >
         {children}
       </body>

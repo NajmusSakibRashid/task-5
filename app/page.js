@@ -3,7 +3,6 @@ import Image from "next/image";
 import Navbar from "./components/navbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ShowJson from "./components/showjson";
 import modifyObject from "./utils/error";
 
 let lastCalled = 0;
@@ -51,7 +50,7 @@ export default function Home() {
     );
     // console.log(data.results);
     data.results = data.results.map((obj) =>
-      modifyObject(obj, Math.min(50, state.error))
+      modifyObject(obj, Math.min(50, state.error || 0))
     );
     if (append) {
       setTable([...table, ...data.results]);
@@ -69,49 +68,43 @@ export default function Home() {
   return (
     <div>
       <Navbar state={state} setState={setState} />
-      <div className=" border-2 border-white grid grid-cols-[auto_auto_auto_auto_auto] p-8 min-w-full">
-        <div className="border-2  border-white font-bold text-xl p-4 w-auto bg-blue-300">
+      <div className="grid grid-cols-[auto_auto_auto_auto_auto] p-8 min-w-[100vw]">
+        <div className="font-bold text-xl p-4 w-auto bg-white m-[1px]">
           Index
         </div>
-        <div className="border-2  border-white font-bold text-xl p-4 w-auto bg-blue-300">
+        <div className="font-bold text-xl p-4 w-auto bg-white m-[1px]">
           Random Identifier
         </div>
-        <div className="border-2  border-white font-bold text-xl p-4 w-auto bg-blue-300">
+        <div className="font-bold text-xl p-4 w-auto bg-white m-[1px]">
           Full Name
         </div>
-        <div className="border-2  border-white font-bold text-xl p-4 w-auto bg-blue-300">
+        <div className="font-bold text-xl p-4 w-auto bg-white m-[1px]">
           Address
         </div>
-        <div className="border-2  border-white font-bold text-xl p-4 w-auto bg-blue-300">
+        <div className="font-bold text-xl p-4 w-auto bg-white m-[1px]">
           Phone
         </div>
         {table.map((item, index) => (
           <>
-            <div
-              className={`hover:bg-blue-600 hover:text-white border-2 border-white p-4 w-auto ${
-                index % 2 == 0 ? "bg-blue-200" : "bg-blue-400"
-              }`}
-            >
+            <div className={`text-gray-500 p-4 w-auto bg-white m-[1px]`}>
               {index + 1}
             </div>
-            <div
-              className={`hover:bg-blue-600 hover:text-white border-2 border-white p-4 w-auto ${
-                index % 2 == 0 ? "bg-blue-200" : "bg-blue-400"
-              }`}
-            >
+            <div className={`text-gray-500 p-4 w-auto bg-white m-[1px]`}>
               {item.login.uuid}
             </div>
-            <ShowJson key={index} index={index} nested={false}>
-              {item.name}
-            </ShowJson>
-            <ShowJson key={index} index={index} nested={false}>
-              {item.location}
-            </ShowJson>
-            <div
-              className={`hover:bg-blue-600 hover:text-white border-2 border-white p-4 w-auto ${
-                index % 2 == 0 ? "bg-blue-200" : "bg-blue-400"
-              }`}
-            >
+            <div className={`text-gray-500 p-4 w-auto bg-white m-[1px]`}>
+              {item.name.first + " " + item.name.last}
+            </div>
+            <div className={`text-gray-500 p-4 w-auto bg-white m-[1px]`}>
+              {item.location.street.number +
+                " " +
+                item.location.street.name +
+                ", " +
+                item.location.city +
+                ", " +
+                item.location.state}
+            </div>
+            <div className={`text-gray-500 p-4 w-auto bg-white m-[1px]`}>
               {item.phone}
             </div>
           </>
