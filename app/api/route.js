@@ -41,7 +41,10 @@ export async function GET(request) {
   if (seed) {
     const hash = getHash(seed);
     // console.log(hash);
-    faker.seed(hash);
+    // faker.seed(hash);
+    fakerES.seed(hash);
+    fakerFR.seed(hash);
+    fakerFA.seed(hash);
   }
   return NextResponse.json(
     getFakeUsers(10 + page * 10 + 10, nat).slice(
