@@ -40,6 +40,7 @@ export async function GET(request) {
   const page = parseInt(urlParams.get("page"));
   if (seed) {
     const hash = getHash(seed);
+    console.log(hash);
     // faker.seed(hash);
     fakerES.seed(hash);
     fakerFR.seed(hash);
