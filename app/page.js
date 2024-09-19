@@ -9,11 +9,11 @@ let lastCalled = 0;
 
 export default function Home() {
   const [state, setState] = useState({
-    region: "es,fr,ir",
+    region: "es",
     error: 0,
     seed: "",
   });
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [table, setTable] = useState([]);
   useEffect(() => {
     const handleScroll = () => {
@@ -37,33 +37,33 @@ export default function Home() {
     };
   }, []);
 
-  const getData = async (results, append) => {
+  const getData = async (append) => {
     const now = Date.now();
-    if (now - lastCalled < 500) {
-      console.log("Too fast");
+    if (now - lastCalled < 250) {
+      // console.log("Too fast");
       return;
     }
     lastCalled = now;
     setPage(1);
-    const { data } = await axios.get(
-      `https://randomuser.me/api/?inc=login,name,phone,location&results=${results}&page=${page}&nat=${state.region}&seed=${state.seed}`
+    let { data } = await axios.get(
+      `/api?page=${page}&nat=${state.region}&seed=${state.seed}`
     );
-    // console.log(data.results);
-    data.results = data.results.map((obj) =>
-      modifyObject(obj, Math.min(50, state.error || 0))
+    // console.log(data);
+    data = data.map((obj) =>
+      modifyObject(obj, Math.min(50, state.error || 0), state.region)
     );
     if (append) {
-      setTable([...table, ...data.results]);
+      setTable([...table, ...data]);
     } else {
-      setTable(data.results);
+      setTable(data);
     }
   };
   useEffect(() => {
     window.scrollTo(0, 0);
-    getData(20, false);
+    getData(false);
   }, [state]);
   useEffect(() => {
-    if (page > 1) getData(10, true);
+    if (page > 1) getData(true);
   }, [page]);
   return (
     <div>
@@ -93,12 +93,10 @@ export default function Home() {
               {item.login.uuid}
             </div>
             <div className={`text-gray-500 p-4 w-auto bg-white m-[1px]`}>
-              {item.name.first + " " + item.name.last}
+              {item.name}
             </div>
             <div className={`text-gray-500 p-4 w-auto bg-white m-[1px]`}>
-              {item.location.street.number +
-                " " +
-                item.location.street.name +
+              {item.location.street.name +
                 ", " +
                 item.location.city +
                 ", " +

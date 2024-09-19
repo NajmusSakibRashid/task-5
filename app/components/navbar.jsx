@@ -27,7 +27,7 @@ const Navbar = ({ state, setState }) => {
         onChange={handleChange}
         className="p-4 rounded-lg w-48"
       >
-        <option value="es,fr,ir">All</option>
+        {/* <option value="es,fr,ir">All</option> */}
         <option value="es">Spanish</option>
         <option value="fr">French</option>
         <option value="ir">Iranian</option>

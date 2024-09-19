@@ -1,8 +1,7 @@
 //applying error on these fields
 
 const attributes = [
-  "name.first",
-  "name.last",
+  "name",
   "location.street.name",
   "location.city",
   "location.state",
@@ -33,16 +32,16 @@ const getRatio = (obj, attribute) => {
   return getNestedValue(obj, attribute).length / totalLength(obj, attributes);
 };
 
-const Spain = "aábcdeéfghiíjklmnñoópqrstuúüvwxyzÁÉÍÓÚÜÑ\n";
-const France =
+const es = "aábcdeéfghiíjklmnñoópqrstuúüvwxyzÁÉÍÓÚÜÑ\n";
+const fr =
   "aàâæbcçdeéèêëfghiîïjklmnoôœpqrstuùûüvwxyÿzÀÂÆBCÇDEÉÈÊËFGHIÎÏJKLMNOÔŒPQRSTUÙÛÜVWXYŸZ\n";
-const Iran =
+const ir =
   "ا آ ب پ ت ث ج چ ح خ د ذ ر ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ه ی\n";
 
 const charDict = {
-  Spain,
-  France,
-  Iran,
+  es,
+  fr,
+  ir,
 };
 
 const deleteAtRandomPosition = (str, region) => {
@@ -89,19 +88,19 @@ const modifiyString = (str, region) => {
   );
 };
 
-const modifyObject = (obj, error_count) => {
+const modifyObject = (obj, error_count, region) => {
   return attributes.reduce(
     (acc, attribute) => {
       let local_error = error_count * getRatio(obj, attribute);
       let modifiedValue = getNestedValue(acc, attribute);
 
       while (local_error >= 1) {
-        modifiedValue = modifiyString(modifiedValue, obj.location.country);
+        modifiedValue = modifiyString(modifiedValue, region);
         local_error -= 1;
       }
 
       if (Math.random() < local_error) {
-        modifiedValue = modifiyString(modifiedValue, obj.location.country);
+        modifiedValue = modifiyString(modifiedValue, region);
       }
 
       acc = setNestedValue(acc, attribute, modifiedValue);
