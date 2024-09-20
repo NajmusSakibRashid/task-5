@@ -32,7 +32,7 @@ const Navbar = ({ state, setState, loading }) => {
   return (
     <div className="fixed flex left-0 right-0 top-0 h-auto bg-red-300 justify-around items-center flex-wrap p-8 gap-8">
       <div className="w-full text-center bg-yellow-300 p-4 rounded-lg">
-        Press Enter To Trigger Data Generation
+        Press Enter After Changing
       </div>
       <select
         name="region"
