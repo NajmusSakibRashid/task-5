@@ -4,8 +4,10 @@ import Navbar from "./components/navbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import modifyObject from "./utils/error";
+import { ClipLoader } from "react-spinners";
 
 let lastCalled = 0;
+let page = 0;
 
 export default function Home() {
   const [state, setState] = useState({
@@ -13,8 +15,10 @@ export default function Home() {
     error: 0,
     seed: "",
   });
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [table, setTable] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [getMore, setGetMore] = useState(0);
   useEffect(() => {
     const handleScroll = () => {
       // Calculate if we are at the bottom of the page
@@ -24,7 +28,7 @@ export default function Home() {
 
       // Check if the user has scrolled to the bottom
       if (scrollTop + windowHeight >= scrollHeight - 1) {
-        setPage((page) => page + 1);
+        setGetMore((prev) => prev + 1);
       }
     };
 
@@ -44,10 +48,12 @@ export default function Home() {
       return;
     }
     lastCalled = now;
-    setPage(1);
+    setLoading(true);
     let { data } = await axios.get(
       `/api?page=${page}&nat=${state.region}&seed=${state.seed}`
     );
+    page++;
+    setLoading(false);
     // console.log(data);
     data = data.map((obj) =>
       modifyObject(obj, Math.min(50, state.error || 0), state.region)
@@ -60,14 +66,20 @@ export default function Home() {
   };
   useEffect(() => {
     window.scrollTo(0, 0);
+    page = 0;
     getData(false);
   }, [state]);
   useEffect(() => {
-    if (page > 1) getData(true);
-  }, [page]);
+    if (getMore > 1) getData(true);
+  }, [getMore]);
   return (
     <div>
-      <Navbar state={state} setState={setState} />
+      {loading && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black opacity-30 z-10">
+          <ClipLoader color="white" size={150} />
+        </div>
+      )}
+      <Navbar state={state} setState={setState} loading={loading} />
       <div className="grid grid-cols-[auto_auto_auto_auto_auto] p-8 min-w-[100vw]">
         <div className="font-bold text-xl p-4 w-auto bg-white m-[1px]">
           Index
